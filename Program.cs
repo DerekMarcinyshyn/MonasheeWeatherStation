@@ -15,6 +15,9 @@ namespace MonasheeWeatherStation
     {
         static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
 
+        /**
+         * Main program
+         */
         public static void Main()
         {
             // let the Netduino fire up first
@@ -23,19 +26,28 @@ namespace MonasheeWeatherStation
             /**** MAIN LOOP ****/
             while (true)
             {
+
+                temperatureHumidity();
                 
-                if (temphumidity.Read())
-                {
-                    var temp = temphumidity.Temperature;
-                    var humidity = temphumidity.Humidity;
-
-                    Debug.Print("RH = " + humidity.ToString("F1") + "%, temp = " + temp.ToString("F1") + "*C");
-                }
-
+                // Loop every X seconds?
                 Thread.Sleep(3000);
                 
             }
             /**** END MAIN LOOP ****/
+        }
+
+        /**
+         * Temperature and Humidity
+         */
+        private static void temperatureHumidity()
+        {
+            if (temphumidity.Read())
+            {
+                var temp = temphumidity.Temperature;
+                var humidity = temphumidity.Humidity;
+
+                Debug.Print("RH = " + humidity.ToString("F1") + "%, temp = " + temp.ToString("F1") + "*C");
+            }
         }
 
     }
