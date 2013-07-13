@@ -7,8 +7,8 @@ http://www.seeedstudio.com/depot/grove-temperaturehumidity-sensor-pro-p-838.html
 
 * Black = GND
 * Red = 5v
-* White = Digital 0
-* Yellow = Digital 1
+* White = not used
+* Yellow = Digital 0 + Digital 1 
 
 BMP085 Sensor
 -------------
