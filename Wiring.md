@@ -1,15 +1,19 @@
 ﻿# Wiring Notes
 
-DHT Sensor
-----------
+DHT22 Sensor
+------------
+
+http://www.seeedstudio.com/depot/grove-temperaturehumidity-sensor-pro-p-838.html
 
 * Black = GND
 * Red = 5v
 * White = Digital 0
 * Yellow = Digital 1
 
-BMP Sensor
-----------
+BMP085 Sensor
+-------------
+
+http://www.seeedstudio.com/depot/grove-barometer-sensor-p-1199.html
 
 * Black = GND
 * Red = 5v
