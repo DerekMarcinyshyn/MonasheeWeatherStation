@@ -13,8 +13,13 @@ namespace MonasheeWeatherStation
 {
     public class Program
     {
-        static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
-        static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
+        //static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
+        //static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
+        static InterruptPort windSpeed = new InterruptPort(Pins.GPIO_PIN_D13, false, ResistorModes.PullUp, InterruptModes.InterruptEdgeLow);
+
+        private static int counter;
+        static Timer resetCounter;
+        private static double windSpeedKmh;
 
         /// <summary>
         /// Main program
@@ -23,28 +28,54 @@ namespace MonasheeWeatherStation
         {
             // let the Netduino fire up first
             Thread.Sleep(500);
+            
+            windSpeed.OnInterrupt += new NativeEventHandler(windSpeed_OnInterrupt);
+            resetCounter = new Timer(resetCounterCallback, null, 0, 1000);
+
+            Thread.Sleep(Timeout.Infinite);           
 
             /**** MAIN LOOP ****/
             while (true)
             {
-
-                barometerTemperature();
+                //barometerTemperature();
 
                 //temperatureHumidity();
                 
                 // Loop every X seconds?
-                Thread.Sleep(10000);
+                Thread.Sleep(2000);
                 
             }
             /**** END MAIN LOOP ****/
+
+ 
         }
 
+        static void resetCounterCallback(Object state)
+        {
+            counter = 0;
+        }
+
+        static void windSpeed_OnInterrupt(uint data1, uint data2, DateTime time)
+        {
+            counter++;            
+            //Debug.Print("counter: " + counter + " time: " + time.Second);
+
+            if (time.Second == time.Second)
+            {               
+                windSpeedKmh = (double)counter * 2.4;
+                Debug.Print("windspeed: " + windSpeedKmh);
+            } 
+        }
+
+   
+
+        /**
         /// <summary>
         /// Barometer and Temperture
         /// </summary>
         private static void barometerTemperature()
         {
-            // compensate for elevation
+            // compensate for elevation in meters
             int altitude = 500;
             double altimeter = (float)101325 * System.Math.Pow(((288 - 0.0065 * altitude) / 288), 5.256);
             double pressureASL = (101325 + barometer.Pascal) - altimeter;
@@ -68,6 +99,6 @@ namespace MonasheeWeatherStation
                 Debug.Print("RH = " + humidity.ToString("F1") + "%, temp = " + temp.ToString("F1") + "*C");
             }
         }
-
+        */
     }
 }
