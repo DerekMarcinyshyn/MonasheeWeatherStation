@@ -15,24 +15,23 @@ namespace MonasheeWeatherStation
     {
         //static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
         //static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
-        static InterruptPort windSpeed = new InterruptPort(Pins.GPIO_PIN_D13, false, ResistorModes.PullUp, InterruptModes.InterruptEdgeLow);
 
-        private static int counter;
-        static Timer resetCounter;
-        private static double windSpeedKmh;
+        // Anemometer wind speed
+        static Cpu.Pin ANEMOMETER_PIN = Pins.GPIO_PIN_D12;
+        public double windSpeed;
 
         /// <summary>
         /// Main program
         /// </summary>
         public static void Main()
         {
+            // check RAM usage
+            Debug.Print(Debug.GC(true) + " bytes available after garbage collection");
             // let the Netduino fire up first
             Thread.Sleep(500);
-            
-            windSpeed.OnInterrupt += new NativeEventHandler(windSpeed_OnInterrupt);
-            resetCounter = new Timer(resetCounterCallback, null, 0, 1000);
 
-            Thread.Sleep(Timeout.Infinite);           
+            Anemometer anemometer = new Anemometer(ANEMOMETER_PIN);
+            anemometer.Start();      
 
             /**** MAIN LOOP ****/
             while (true)
@@ -40,34 +39,20 @@ namespace MonasheeWeatherStation
                 //barometerTemperature();
 
                 //temperatureHumidity();
+
+                var windSpeed = System.Math.Round(anemometer.WindSpeed);
+                Debug.Print("windspeed: " + windSpeed);
                 
                 // Loop every X seconds?
                 Thread.Sleep(2000);
-                
+
+                // call Garbage Collector so it can run forever
+                Debug.GC(true);                
             }
             /**** END MAIN LOOP ****/
 
  
-        }
-
-        static void resetCounterCallback(Object state)
-        {
-            counter = 0;
-        }
-
-        static void windSpeed_OnInterrupt(uint data1, uint data2, DateTime time)
-        {
-            counter++;            
-            //Debug.Print("counter: " + counter + " time: " + time.Second);
-
-            if (time.Second == time.Second)
-            {               
-                windSpeedKmh = (double)counter * 2.4;
-                Debug.Print("windspeed: " + windSpeedKmh);
-            } 
-        }
-
-   
+        }   
 
         /**
         /// <summary>

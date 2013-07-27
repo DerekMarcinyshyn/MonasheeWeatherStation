@@ -19,3 +19,11 @@ http://www.seeedstudio.com/depot/grove-barometer-sensor-p-1199.html
 * Red = 5v
 * White = SD
 * Yellow = SC
+
+Wind Speed
+----------
+
+Middle two wires coming from Anemeter and Direction
+
+* Blue = GND
+* Yellow = Digital 12
