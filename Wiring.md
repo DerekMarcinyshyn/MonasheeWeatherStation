@@ -40,5 +40,11 @@ Outer two wires coming from Anemometer and Wind Vane
 
 * Green = GND
 * Red ---- 10k resistor ---- 3.3v
-       |
-	   |---- Output to Analog 2
+*      +
+*	   +---- Output to Analog 2
+
+Rain Gauge
+----------
+
+* Blue = GND
+* Yellow = Digital 11
