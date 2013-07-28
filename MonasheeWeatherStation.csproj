@@ -35,7 +35,7 @@
   </PropertyGroup>
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
-    <Compile Include="Anemometer\Anemometer.cs" />
+    <Compile Include="Wind\Anemometer.cs" />
     <Compile Include="Barometer\BMP085.cs" />
     <Compile Include="Barometer\I2CBus.cs" />
     <Compile Include="DHTSensor\DHTSensor.cs" />
@@ -45,6 +45,7 @@
     <Compile Include="DHTSensor\RHT03.cs" />
     <Compile Include="DHTSensor\TemperatureSensor.cs" />
     <Compile Include="DHTSensor\TimeCounter.cs" />
+    <Compile Include="Wind\WindVane.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SPOT.Hardware" />
