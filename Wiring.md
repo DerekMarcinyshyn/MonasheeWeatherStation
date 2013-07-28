@@ -20,10 +20,25 @@ http://www.seeedstudio.com/depot/grove-barometer-sensor-p-1199.html
 * White = SD
 * Yellow = SC
 
-Wind Speed
+Sparkfun Weather Meters
+-----------------------
+
+https://www.sparkfun.com/products/8942
+
+Anemometer
 ----------
 
-Middle two wires coming from Anemeter and Direction
+Middle two wires coming from Anemometer and Wind Vane
 
 * Blue = GND
 * Yellow = Digital 12
+
+Wind Vane
+---------
+
+Outer two wires coming from Anemometer and Wind Vane
+
+* Green = GND
+* Red ---- 10k resistor ---- 3.3v
+       |
+	   |---- Output to Analog 2
