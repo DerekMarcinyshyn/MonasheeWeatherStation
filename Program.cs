@@ -15,10 +15,7 @@ namespace MonasheeWeatherStation
     {
         //static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
         //static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
-
-        // Anemometer wind speed
-        static Cpu.Pin ANEMOMETER_PIN = Pins.GPIO_PIN_D12;
-        public double windSpeed;
+        static Anemometer anemometer = new Anemometer(Pins.GPIO_PIN_D12);
 
         /// <summary>
         /// Main program
@@ -27,10 +24,10 @@ namespace MonasheeWeatherStation
         {
             // check RAM usage
             Debug.Print(Debug.GC(true) + " bytes available after garbage collection");
+
             // let the Netduino fire up first
             Thread.Sleep(500);
 
-            Anemometer anemometer = new Anemometer(ANEMOMETER_PIN);
             anemometer.Start();      
 
             /**** MAIN LOOP ****/
@@ -40,8 +37,7 @@ namespace MonasheeWeatherStation
 
                 //temperatureHumidity();
 
-                var windSpeed = System.Math.Round(anemometer.WindSpeed);
-                Debug.Print("windspeed: " + windSpeed);
+                Debug.Print("windspeed: " + System.Math.Round(anemometer.WindSpeed));
                 
                 // Loop every X seconds?
                 Thread.Sleep(2000);
