@@ -47,4 +47,4 @@ Rain Gauge
 ----------
 
 * Blue = GND
-* Yellow = Digital 11
+* Yellow = Digital 10

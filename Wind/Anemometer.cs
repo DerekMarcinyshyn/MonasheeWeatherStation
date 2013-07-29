@@ -89,7 +89,7 @@ namespace MonasheeWeatherStation
             {
                 long ticks = time.Ticks;
                 
-                // if two consecutive interrupts are very closed (inside DEBOUNCING_INTERVAL)
+                // if two consecutive interrupts are very close (inside DEBOUNCING_INTERVAL)
                 // we need to filter with a debouncing
                 if (ticks - prevPulseTicks < DEBOUNCING_INTERVAL * TimeSpan.TicksPerMillisecond)
                     return;

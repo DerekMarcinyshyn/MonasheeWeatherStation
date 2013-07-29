@@ -15,7 +15,8 @@ namespace MonasheeWeatherStation
     {
         //static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
         //static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
-        //static Anemometer anemometer = new Anemometer(Pins.GPIO_PIN_D12);
+        //static Anemometer anemometer = new Anemometer(Pins.GPIO_PIN_D12); 
+        static RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);
 
         /// <summary>
         /// Main program
@@ -29,18 +30,20 @@ namespace MonasheeWeatherStation
             Thread.Sleep(500);
 
             //anemometer.Start();
- 
+
             /**** MAIN LOOP ****/
             while (true)
             {
-                //barometerTemperature();
+                //BarometerTemperature();
 
-                //temperatureHumidity();
+                //TemperatureHumidity();
 
-                windDirection();
+                //WindDirection();
 
-                //Debug.Print("windspeed: " + System.Math.Round(anemometer.WindSpeed));
-                
+                Rainfall();
+
+                //Debug.Print("windspeed: " + System.Math.Round(anemometer.WindSpeed));                
+
                 // Loop every X seconds?
                 Thread.Sleep(2000);
 
@@ -52,18 +55,27 @@ namespace MonasheeWeatherStation
  
         }
 
-        private static void windDirection()
+        private static void Rainfall()
+        {
+            // send post to database to record that a rainfall gauge event happened
+            Debug.Print("rainfall: " + raingauge.RainFall.ToString());
+        }               
+
+        /// <summary>
+        /// Wind Direction
+        /// </summary>
+        private static void WindDirection()
         {
             var windvane = new WindVane();
-            Debug.Print("wind raw: " + windvane.WindRaw);
-            Debug.Print("wind direction: " + windvane.WindDirection);
+            //Debug.Print("wind raw: " + windvane.WindRaw);
+            //Debug.Print("wind direction: " + windvane.WindDirection);
         }
 
         /**
         /// <summary>
         /// Barometer and Temperture
         /// </summary>
-        private static void barometerTemperature()
+        private static void BarometerTemperature()
         {
             // compensate for elevation in meters
             int altitude = 500;
@@ -79,7 +91,7 @@ namespace MonasheeWeatherStation
         /// <summary>
         /// Temperature and Humidity
         /// </summary>
-        private static void temperatureHumidity()
+        private static void TemperatureHumidity()
         {
             if (temphumidity.Read())
             {

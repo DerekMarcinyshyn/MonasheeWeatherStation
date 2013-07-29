@@ -45,6 +45,7 @@
     <Compile Include="DHTSensor\RHT03.cs" />
     <Compile Include="DHTSensor\TemperatureSensor.cs" />
     <Compile Include="DHTSensor\TimeCounter.cs" />
+    <Compile Include="Wind\RainGauge.cs" />
     <Compile Include="Wind\WindVane.cs" />
   </ItemGroup>
   <ItemGroup>
