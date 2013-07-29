@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
@@ -13,8 +14,8 @@ namespace MonasheeWeatherStation
 {
     public class Program
     {
-        static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
-        static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
+        //static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
+        //static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
         //static Anemometer anemometer = new Anemometer(Pins.GPIO_PIN_D12); 
         //static RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);
 
@@ -27,16 +28,19 @@ namespace MonasheeWeatherStation
             Debug.Print(Debug.GC(true) + " bytes available after garbage collection");            
 
             // let the Netduino fire up first
-            Thread.Sleep(500);
-
+            Thread.Sleep(500);         
+            
+            // start the webserver
+            WebServer webserver = new WebServer();
+            
             //anemometer.Start();
 
             /**** MAIN LOOP ****/
             while (true)
             {
-                BarometerTemperature();
+                //BarometerTemperature();
 
-                TemperatureHumidity();
+                //TemperatureHumidity();
 
                 //WindDirection();
 
@@ -44,15 +48,13 @@ namespace MonasheeWeatherStation
 
                 //Debug.Print("windspeed: " + System.Math.Round(anemometer.WindSpeed));                
 
-                // Loop every X seconds?
-                Thread.Sleep(10000);
+                 // Loop every X seconds?
+                //Thread.Sleep(10000);
 
                 // call Garbage Collector so it can run forever
-                Debug.GC(true);                
+                //Debug.GC(true);                
             }
-            /**** END MAIN LOOP ****/
-
- 
+            /**** END MAIN LOOP ****/ 
         }
 
         private static void Rainfall()
@@ -68,7 +70,7 @@ namespace MonasheeWeatherStation
         {
             var windvane = new WindVane();
             //Debug.Print("wind raw: " + windvane.WindRaw);
-            Debug.Print("wind direction: " + windvane.WindDirection);
+            //Debug.Print("wind direction: " + windvane.WindDirection);
         }
 
         /// <summary>
@@ -79,14 +81,14 @@ namespace MonasheeWeatherStation
             // compensate for elevation in meters
             int altitude = 500;
             double altimeter = (float)101325 * System.Math.Pow(((288 - 0.0065 * altitude) / 288), 5.256);
-            double pressureASL = (101325 + barometer.Pascal) - altimeter;
+            //double pressureASL = (101325 + barometer.Pascal) - altimeter;
 
-            Debug.Print("Pascal: " + barometer.Pascal);
-            Debug.Print("kPa: " + pressureASL);
+            //Debug.Print("Pascal: " + barometer.Pascal);
+            //Debug.Print("kPa: " + pressureASL);
             //Debug.Print("Mg: " + barometer.InchesMercury.ToString("F2"));
-            Debug.Print("Temp: " + barometer.Celsius.ToString("F2"));
+            //Debug.Print("Temp: " + barometer.Celsius.ToString("F2"));
         }
-
+        /**
         /// <summary>
         /// Temperature and Humidity
         /// </summary>
@@ -99,7 +101,7 @@ namespace MonasheeWeatherStation
 
                 Debug.Print("RH = " + humidity.ToString("F1") + "%, temp = " + temp.ToString("F1") + "*C");
             }
-        }
+        } */
         
-    }
+    }   
 }

@@ -35,6 +35,7 @@
   </PropertyGroup>
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
+    <Compile Include="WebServer\WebServer.cs" />
     <Compile Include="Wind\Anemometer.cs" />
     <Compile Include="Barometer\BMP085.cs" />
     <Compile Include="Barometer\I2CBus.cs" />
