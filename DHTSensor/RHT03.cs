@@ -35,7 +35,7 @@ namespace MonasheeWeatherStation
         {
             get
             {
-                return 2; // At least 1 ms
+                return 4; // At least 1 ms
             }
         }
 

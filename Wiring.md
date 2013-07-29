@@ -30,21 +30,21 @@ Anemometer
 
 Middle two wires coming from Anemometer and Wind Vane
 
-* Blue = GND
-* Yellow = Digital 12
+* Blue = GND Bus -> Bus
+* Purple = Green -> Digital 12
 
 Wind Vane
 ---------
 
 Outer two wires coming from Anemometer and Wind Vane
 
-* Green = GND
-* Red ---- 10k resistor ---- 3.3v
+* Grey = GND Bus -> GND
+* Green ---- 10k resistor ---- 3.3v
 *      +
-*	   +---- Output to Analog 2
+*	   +---- Yellow to Analog 2
 
 Rain Gauge
 ----------
 
-* Blue = GND
-* Yellow = Digital 10
+* Black = GND Bus -> GND
+* White = Blue -> Digital 10

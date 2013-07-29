@@ -13,10 +13,10 @@ namespace MonasheeWeatherStation
 {
     public class Program
     {
-        //static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
-        //static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
+        static Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
+        static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
         //static Anemometer anemometer = new Anemometer(Pins.GPIO_PIN_D12); 
-        static RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);
+        //static RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);
 
         /// <summary>
         /// Main program
@@ -34,18 +34,18 @@ namespace MonasheeWeatherStation
             /**** MAIN LOOP ****/
             while (true)
             {
-                //BarometerTemperature();
+                BarometerTemperature();
 
-                //TemperatureHumidity();
+                TemperatureHumidity();
 
                 //WindDirection();
 
-                Rainfall();
+                //Rainfall();
 
                 //Debug.Print("windspeed: " + System.Math.Round(anemometer.WindSpeed));                
 
                 // Loop every X seconds?
-                Thread.Sleep(2000);
+                Thread.Sleep(10000);
 
                 // call Garbage Collector so it can run forever
                 Debug.GC(true);                
@@ -58,7 +58,7 @@ namespace MonasheeWeatherStation
         private static void Rainfall()
         {
             // send post to database to record that a rainfall gauge event happened
-            Debug.Print("rainfall: " + raingauge.RainFall.ToString());
+            //Debug.Print("rainfall: " + raingauge.RainFall.ToString());
         }               
 
         /// <summary>
@@ -68,10 +68,9 @@ namespace MonasheeWeatherStation
         {
             var windvane = new WindVane();
             //Debug.Print("wind raw: " + windvane.WindRaw);
-            //Debug.Print("wind direction: " + windvane.WindDirection);
+            Debug.Print("wind direction: " + windvane.WindDirection);
         }
 
-        /**
         /// <summary>
         /// Barometer and Temperture
         /// </summary>
@@ -84,7 +83,7 @@ namespace MonasheeWeatherStation
 
             Debug.Print("Pascal: " + barometer.Pascal);
             Debug.Print("kPa: " + pressureASL);
-            Debug.Print("Mg: " + barometer.InchesMercury.ToString("F2"));
+            //Debug.Print("Mg: " + barometer.InchesMercury.ToString("F2"));
             Debug.Print("Temp: " + barometer.Celsius.ToString("F2"));
         }
 
@@ -101,6 +100,6 @@ namespace MonasheeWeatherStation
                 Debug.Print("RH = " + humidity.ToString("F1") + "%, temp = " + temp.ToString("F1") + "*C");
             }
         }
-        */
+        
     }
 }
