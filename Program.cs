@@ -28,16 +28,19 @@ namespace MonasheeWeatherStation
             Debug.Print(Debug.GC(true) + " bytes available after garbage collection");            
 
             // let the Netduino fire up first
-            Thread.Sleep(500);         
-            
+            Thread.Sleep(500);
+
+            // start collecting data
+            var collector = new DataCollector();      
+
             // start the webserver
-            WebServer webserver = new WebServer();
+            WebServer webserver = new WebServer(collector);
             
             //anemometer.Start();
 
             /**** MAIN LOOP ****/
-            while (true)
-            {
+            //while (true)
+            //{
                 //BarometerTemperature();
 
                 //TemperatureHumidity();
@@ -53,55 +56,55 @@ namespace MonasheeWeatherStation
 
                 // call Garbage Collector so it can run forever
                 //Debug.GC(true);                
-            }
+            //}
             /**** END MAIN LOOP ****/ 
         }
 
-        private static void Rainfall()
-        {
+        //private static void Rainfall()
+        //{
             // send post to database to record that a rainfall gauge event happened
             //Debug.Print("rainfall: " + raingauge.RainFall.ToString());
-        }               
+        //}               
 
         /// <summary>
         /// Wind Direction
         /// </summary>
-        private static void WindDirection()
-        {
-            var windvane = new WindVane();
+        //private static void WindDirection()
+        //{
+            //var windvane = new WindVane();
             //Debug.Print("wind raw: " + windvane.WindRaw);
             //Debug.Print("wind direction: " + windvane.WindDirection);
-        }
+        //}
 
         /// <summary>
         /// Barometer and Temperture
         /// </summary>
-        private static void BarometerTemperature()
-        {
+        //private static void BarometerTemperature()
+        //{
             // compensate for elevation in meters
-            int altitude = 500;
-            double altimeter = (float)101325 * System.Math.Pow(((288 - 0.0065 * altitude) / 288), 5.256);
+            //int altitude = 500;
+            //double altimeter = (float)101325 * System.Math.Pow(((288 - 0.0065 * altitude) / 288), 5.256);
             //double pressureASL = (101325 + barometer.Pascal) - altimeter;
 
             //Debug.Print("Pascal: " + barometer.Pascal);
             //Debug.Print("kPa: " + pressureASL);
             //Debug.Print("Mg: " + barometer.InchesMercury.ToString("F2"));
             //Debug.Print("Temp: " + barometer.Celsius.ToString("F2"));
-        }
-        /**
+        //}
+
         /// <summary>
         /// Temperature and Humidity
         /// </summary>
-        private static void TemperatureHumidity()
-        {
-            if (temphumidity.Read())
-            {
-                var temp = temphumidity.Temperature;
-                var humidity = temphumidity.Humidity;
+        //private static void TemperatureHumidity()
+        //{
+            //if (temphumidity.Read())
+            //{
+                //var temp = temphumidity.Temperature;
+                //var humidity = temphumidity.Humidity;
 
-                Debug.Print("RH = " + humidity.ToString("F1") + "%, temp = " + temp.ToString("F1") + "*C");
-            }
-        } */
+                //Debug.Print("RH = " + humidity.ToString("F1") + "%, temp = " + temp.ToString("F1") + "*C");
+            //
+        //} 
         
     }   
 }

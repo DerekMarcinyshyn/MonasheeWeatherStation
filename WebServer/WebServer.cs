@@ -21,6 +21,7 @@ namespace MonasheeWeatherStation
         // add led to show requests
 
         // add collector class to gather sensor data
+        private DataCollector Collector { get; set; }
 
         // server config
         private const Int32 SERVER_PORT = 80;
@@ -31,8 +32,11 @@ namespace MonasheeWeatherStation
         /// <summary>
         /// Creates a webserver listening on SERVER_PORT
         /// </summary>
-        public WebServer()
+        public WebServer(DataCollector collector)
         {
+            // keep reference to the collector
+            Collector = collector;
+
             // Set the Static IP Address
             var NetworkInterface = Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0];
             NetworkInterface.EnableStaticIP(IP_ADDRESS, IP_SUBNET_MASK, IP_GATEWAY);
@@ -78,7 +82,9 @@ namespace MonasheeWeatherStation
                         {
                             Debug.Print("show simple page");
                             String response = "<!DOCTYPE html><html><head><title>Monashee Weahter Station</title></head>" + 
-                                "<body><h1>Monashee Weather Station</h1><p>This is from Netduino Plus 2</p></body></html>";
+                                "<body><h1>Monashee Weather Station</h1><p>This is from Netduino Plus 2</p>" +
+                                GetJsonResponse() +
+                                "</body></html>";
 
                             Serve(response, connectionSocket);
                         }
@@ -103,6 +109,24 @@ namespace MonasheeWeatherStation
         }
 
 
+        private string GetJsonResponse()
+        {
+            if ( (Collector.Data != null) && (Collector.Data.Count > 0))
+            {
+                String jsonData = @"[";
+
+                foreach (var item in Collector.Data)
+                    jsonData += item;
+
+                jsonData += @"]";
+
+                return jsonData;
+            }
+            else
+            {
+                return "{Data currently unavailable}";
+            }            
+        }
 
 
 
