@@ -80,24 +80,20 @@ namespace MonasheeWeatherStation
                         // Server the request -- basic routing
                         if (Request.IndexOf("GET / HTTP/1.1") == 0)
                         {
-                            Debug.Print("show simple page");
-                            String response = "<!DOCTYPE html><html><head><title>Monashee Weahter Station</title></head>" + 
-                                "<body><h1>Monashee Weather Station</h1><p>This is from Netduino Plus 2</p>" +
-                                GetJsonResponse() +
-                                "</body></html>";
+                            //Debug.Print("show simple page");
+                            String response = GetJsonResponse();
 
                             Serve(response, connectionSocket);
                         }
                         else if (Request.IndexOf("GET /favicon.ico HTTP/1.1") == 0) // favicon requested?
                         {
-                            Debug.Print("show 404");
-                            String response = "<!DOCTYPE html><html><head><title>404 Error</title></head>" +
-    "<body><h1>No favicon here</h1></body></html>";
+                            //Debug.Print("show 404");
+                            String response = "";
                             ServeWith404(response, connectionSocket);
                         }
                         else // do not know what to serve so 404
                         {
-                            Debug.Print("show do not know 404");
+                            //Debug.Print("show do not know 404");
                             String response = "<!DOCTYPE html><html><head><title>Unknown request 404 Error</title></head>" +
                                 "<body><h1>Unknown request 404 ERROR</h1></body></html>";
                             ServeWith404(response, connectionSocket);
@@ -108,7 +104,10 @@ namespace MonasheeWeatherStation
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private string GetJsonResponse()
         {
             if ( (Collector.Data != null) && (Collector.Data.Count > 0))
@@ -127,10 +126,7 @@ namespace MonasheeWeatherStation
                 return "{Data currently unavailable}";
             }            
         }
-
-
-
-        
+                
         /// <summary>
         /// Serves the response to the client with a status code of 200 OK
         /// </summary>
@@ -138,8 +134,12 @@ namespace MonasheeWeatherStation
         /// <param name="socket">The socket to send the response with</param>
         private void Serve(string response, Socket socket)
         {
-            string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: " + response.Length.ToString()
-                + "\r\nConnection: close\r\n\r\n";
+            string header = "HTTP/1.1 200 OK\r\n"
+                + "Cache-Control: no-cache, must-revalidate\r\n"
+                + "Expires: Mon, 26 Jul 1997 05:00:00 GMT\r\n"
+                + "Content-Type: application/json\r\n"
+                + "Content-Length: " + response.Length.ToString() + "\r\n"
+                + "Connection: close\r\n\r\n";
             SendResponse(response, socket, header);
         }
 

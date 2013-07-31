@@ -44,6 +44,8 @@ namespace MonasheeWeatherStation
                 // set last interupt time
                 raingauge_interruptTime = time;
 
+                // maybe here to post to database that a rain event happened?
+
                 rainfallCount++;
                 this.RainFall = rainfallCount * REFERENCE_RAINFALL;                
             }

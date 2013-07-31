@@ -50,30 +50,34 @@ namespace MonasheeWeatherStation
             // Sensor variables
             Dht22Sensor temphumidity = new Dht22Sensor(Pins.GPIO_PIN_D0, Pins.GPIO_PIN_D1, PullUpResistor.Internal);
             BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
-            //Anemometer anemometer = new Anemometer(Pins.GPIO_PIN_D12); 
+            Anemometer anemometer = new Anemometer(Pins.GPIO_PIN_D12);
             //RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);
-
+            
             while (true)
             {   
-
                 // read DHT22
                 if (temphumidity.Read())
                 {
+                    // DHT22 sensor
                     String temp = temphumidity.Temperature.ToString("F1");
                     String humidity = temphumidity.Humidity.ToString("F1");
-
-
+                    
                     // compensate for elevation in meters
                     int altitude = 500;
                     double altimeter = (float)101325 * System.Math.Pow(((288 - 0.0065 * altitude) / 288), 5.256);
                     double pressureASL = ((101325 + barometer.Pascal) - altimeter) / 1000;
 
+                    anemometer.Start();
+                    WindVane windvane = new WindVane();
+
                     // create the json data array
                     ArrayList data = new ArrayList();
-                    data.Add("{tempdht:" + temp + "},");
-                    data.Add("{humiditydht:" + humidity + "},");
-                    data.Add("{tempbmp:" + barometer.Celsius.ToString("F1") + "}");
-                    data.Add("{pressurebmp:" + pressureASL.ToString("F1") + "}");
+                    data.Add(@"{""tempdht"":" + temp + "},");
+                    data.Add(@"{""humiditydht"":" + humidity + "},");
+                    data.Add(@"{""tempbmp"":" + barometer.Celsius.ToString("F1") + "},");
+                    data.Add(@"{""pressurebmp"":" + pressureASL.ToString("F1") + "},");
+                    data.Add(@"{""direction"":" + windvane.WindDirection + "},");
+                    data.Add(@"{""speed"":" + anemometer.WindSpeed.ToString("F1") + "}");
 
                     Data = data;
                 }
