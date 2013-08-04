@@ -14,7 +14,7 @@ namespace MonasheeWeatherStation
     class RainGauge
     {
         // server settings
-        const string SERVER_HOST_POST = "192.168.1.161";
+        const string SERVER_HOST_POST = "192.168.1.34";
         const Int32 SERVER_PORT = 80;  
 
         // interrupt port bind
@@ -59,7 +59,7 @@ namespace MonasheeWeatherStation
                 rainfallCount++;
                 //this.RainFall = rainfallCount * REFERENCE_RAINFALL;
 
-                Debug.Print("it tipped: " + rainfallCount);
+                //Debug.Print("it tipped: " + rainfallCount);
 
                 SendPost();
             }
@@ -71,19 +71,16 @@ namespace MonasheeWeatherStation
         private void SendPost()
         {
             Debug.GC(true);
-
-            String nonce = random.Next(999999).ToString();
-                        
+                       
             // Build the Request string
-            String _args = "nonce=" + nonce;
+            String _args = "shared=9v5s44s7E284Nr2e2813z3cp107Fz2";
 
-            String _request = "POST /public/postrainfall HTTP/1.0\n";
-            _request += "Accept: application/json\n";
+            String _request = "POST /weather-station/json.php HTTP/1.0\n";
             _request += "Content-Type: application/x-www-form-urlencoded\n";
             _request += "Content-Length: " + _args.Length + "\n\n";
             _request += _args;
 
-            Debug.Print("sendPost: \n" + _request);
+            //Debug.Print("sendPost: \n" + _request);
 
             SendPostRequest(SERVER_HOST_POST, SERVER_PORT, _request);
         }
