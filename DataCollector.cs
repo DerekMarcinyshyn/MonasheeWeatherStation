@@ -72,12 +72,12 @@ namespace MonasheeWeatherStation
 
                     // create the json data array
                     ArrayList data = new ArrayList();
-                    data.Add(@"{""tempdht"":" + temp + "},");
-                    data.Add(@"{""humiditydht"":" + humidity + "},");
-                    data.Add(@"{""tempbmp"":" + barometer.Celsius.ToString("F1") + "},");
-                    data.Add(@"{""pressurebmp"":" + pressureASL.ToString("F1") + "},");
-                    data.Add(@"{""direction"":" + windvane.WindDirection + "},");
-                    data.Add(@"{""speed"":" + anemometer.WindSpeed.ToString("F1") + "}");
+                    data.Add(@"{""tempdht"":""" + temp + "\"" + ",");
+                    data.Add(@"""humiditydht"":""" + humidity + "\"" + ",");
+                    data.Add(@"""tempbmp"":""" + barometer.Celsius.ToString("F1") + "\"" + ",");
+                    data.Add(@"""pressurebmp"":""" + pressureASL.ToString("F1") + "\"" + ",");
+                    data.Add(@"""direction"":""" + windvane.WindDirection + "\"" + ",");
+                    data.Add(@"""speed"":""" + anemometer.WindSpeed.ToString("F1") + "\"" + "}");
 
                     Data = data;
                 }

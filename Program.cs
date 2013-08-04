@@ -14,6 +14,8 @@ namespace MonasheeWeatherStation
 {
     public class Program
     {
+        static RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);
+
         /// <summary>
         /// Main program
         /// </summary>
@@ -30,6 +32,8 @@ namespace MonasheeWeatherStation
 
             // start the webserver
             WebServer webserver = new WebServer(collector);
+
+            Debug.GC(true);
 
             Thread.Sleep(Timeout.Infinite);
         }        

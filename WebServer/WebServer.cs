@@ -82,7 +82,6 @@ namespace MonasheeWeatherStation
                         {
                             //Debug.Print("show simple page");
                             String response = GetJsonResponse();
-
                             Serve(response, connectionSocket);
                         }
                         else if (Request.IndexOf("GET /favicon.ico HTTP/1.1") == 0) // favicon requested?
@@ -98,7 +97,6 @@ namespace MonasheeWeatherStation
                                 "<body><h1>Unknown request 404 ERROR</h1></body></html>";
                             ServeWith404(response, connectionSocket);
                         }
-
                     }
                 }
             }
@@ -112,18 +110,18 @@ namespace MonasheeWeatherStation
         {
             if ( (Collector.Data != null) && (Collector.Data.Count > 0))
             {
-                String jsonData = @"[";
+                String jsonData = @"";
 
                 foreach (var item in Collector.Data)
                     jsonData += item;
 
-                jsonData += @"]";
+                jsonData += @"";
 
                 return jsonData;
             }
             else
             {
-                return "{Data currently unavailable}";
+                return @"{""tempbmp"":""Data currently unavailable""}";
             }            
         }
                 
@@ -136,10 +134,10 @@ namespace MonasheeWeatherStation
         {
             string header = "HTTP/1.1 200 OK\r\n"
                 + "Cache-Control: no-cache, must-revalidate\r\n"
-                + "Expires: Mon, 26 Jul 1997 05:00:00 GMT\r\n"
+                + "Connection: close\r\n"                
+                + "Content-Length: " + response.Length.ToString() + "\r\n"                
                 + "Content-Type: application/json\r\n"
-                + "Content-Length: " + response.Length.ToString() + "\r\n"
-                + "Connection: close\r\n\r\n";
+                + "Expires: Mon, 26 Jul 1997 05:00:00 GMT\r\n\r\n";
             SendResponse(response, socket, header);
         }
 
@@ -152,8 +150,10 @@ namespace MonasheeWeatherStation
         private void SendResponse(string response, Socket socket, string header)
         {
             socket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
-            socket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
             var sendStream = new NetworkStream(socket, false);
+            
+            socket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+            
 
             // add blink here
         }
