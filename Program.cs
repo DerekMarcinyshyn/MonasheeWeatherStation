@@ -8,13 +8,13 @@ using Microsoft.SPOT.Hardware;
 using SecretLabs.NETMF.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
 using CW.NETMF; // temp/humidity drivers
-using Toolbox.NETMF.Hardware;
 
 namespace MonasheeWeatherStation
 {
     public class Program
     {
         static RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);
+        //static BMP085 barometer = new BMP085(0x77, BMP085.DeviceMode.UltraHighResolution);
 
         /// <summary>
         /// Main program
@@ -22,18 +22,18 @@ namespace MonasheeWeatherStation
         public static void Main()
         {
             // check RAM usage
-            Debug.Print(Debug.GC(true) + " bytes available after garbage collection");
+            //Debug.Print(Debug.GC(true) + " bytes available after garbage collection");
 
             // let the Netduino fire up first
-            Thread.Sleep(500);
+            Thread.Sleep(5000);
 
             // start collecting data
-            var collector = new DataCollector();
+            DataCollector collector = new DataCollector();
+
+            Thread.Sleep(2000);
 
             // start the webserver
             WebServer webserver = new WebServer(collector);
-
-            Debug.GC(true);
 
             Thread.Sleep(Timeout.Infinite);
         }        

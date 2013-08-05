@@ -1,6 +1,10 @@
 using System;
 using Microsoft.SPOT;
+using System.Threading;
 using Microsoft.SPOT.Hardware;
+using Toolbox.NETMF;
+using SecretLabs.NETMF.Hardware;
+using SecretLabs.NETMF.Hardware.Netduino;
 
 namespace MonasheeWeatherStation
 {

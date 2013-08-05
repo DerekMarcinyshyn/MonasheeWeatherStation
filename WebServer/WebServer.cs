@@ -26,7 +26,7 @@ namespace MonasheeWeatherStation
         // server config
         private const Int32 SERVER_PORT = 80;
         private string IP_ADDRESS = "192.168.1.50";
-        private string IP_SUBNET_MASK = "255.255.0";
+        private string IP_SUBNET_MASK = "255.255.255.0";
         private string IP_GATEWAY = "192.168.1.1";
 
         /// <summary>
@@ -62,6 +62,8 @@ namespace MonasheeWeatherStation
         {
             while (true)
             {
+                Thread.Sleep(10);
+
                 using (Socket connectionSocket = _socket.Accept())
                 {
                     // get clients IP
@@ -75,7 +77,7 @@ namespace MonasheeWeatherStation
                         byte[] Buffer = new byte[BytesReceived];
                         int ByteCount = connectionSocket.Receive(Buffer, BytesReceived, SocketFlags.None);
                         string Request = new string(Encoding.UTF8.GetChars(Buffer));
-                        Debug.Print(Request);
+                        //Debug.Print(Request);
 
                         // Server the request -- basic routing
                         if (Request.IndexOf("GET / HTTP/1.1") == 0)
@@ -108,7 +110,7 @@ namespace MonasheeWeatherStation
         /// <returns></returns>
         private string GetJsonResponse()
         {
-            if ( (Collector.Data != null) && (Collector.Data.Count > 0))
+            if (Collector.Data != null) 
             {
                 String jsonData = @"";
 
@@ -121,7 +123,17 @@ namespace MonasheeWeatherStation
             }
             else
             {
-                return @"{""tempbmp"":""Data currently unavailable""}";
+                try
+                {
+                    DataCollector collector = new DataCollector();
+                    collector.Start();
+                }
+                catch (Exception ex)
+                {
+                    Debug.Print(ex.ToString());
+                }
+
+                return @"{""tempbmp"":""error""}";
             }            
         }
                 
@@ -151,10 +163,12 @@ namespace MonasheeWeatherStation
         {
             socket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
             var sendStream = new NetworkStream(socket, false);
-            
-            socket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
-            
 
+            try
+            {
+                socket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
+            } catch {
+            }
             // add blink here
         }
 

@@ -1,5 +1,6 @@
 using System;
 using Microsoft.SPOT;
+using System.Threading;
 using Microsoft.SPOT.Hardware;
 using CW.NETMF;
 using CW.NETMF.Sensors;

@@ -69,9 +69,7 @@ namespace MonasheeWeatherStation
         /// Builds the string to send to the server
         /// </summary>
         private void SendPost()
-        {
-            Debug.GC(true);
-                       
+        {                     
             // Build the Request string
             String _args = "shared=9v5s44s7E284Nr2e2813z3cp107Fz2";
 

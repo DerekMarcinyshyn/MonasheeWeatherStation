@@ -185,7 +185,7 @@ namespace CW.NETMF.Sensors
             // code takes longer to execute than is the duration of sensor pulse
             // (interrupts are queued), so we must wait for the last one to finish
             // and signal completion. 20 ms should be enough, 50 ms is safe.
-            if (dataReceived.WaitOne(250, false))
+            if (dataReceived.WaitOne(150, false))
             {
                 // TODO: Use two short-s ?
                 bytes[0] = (byte)((data >> 32) & 0xFF);

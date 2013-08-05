@@ -1,6 +1,7 @@
 namespace CW.NETMF
 {
     using Microsoft.SPOT.Hardware;
+    using System.Threading;
 
     /// <summary>
     /// Specifies the various pull-up resistor types.
