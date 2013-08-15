@@ -15,7 +15,7 @@ namespace MonasheeWeatherStation
     {
         // server settings
         const string SERVER_HOST_POST = "192.168.1.34";
-        const Int32 SERVER_PORT = 80;  
+        const Int32 SERVER_PORT = 80;
 
         // interrupt port bind
         private InterruptPort inPort;
@@ -54,7 +54,7 @@ namespace MonasheeWeatherStation
             if (raingauge_interruptTime.AddMilliseconds(DEBOUNCING_INTERVAL) < time)
             {
                 // set last interupt time
-                raingauge_interruptTime = time;                
+                raingauge_interruptTime = time;
 
                 rainfallCount++;
                 //this.RainFall = rainfallCount * REFERENCE_RAINFALL;
@@ -69,7 +69,7 @@ namespace MonasheeWeatherStation
         /// Builds the string to send to the server
         /// </summary>
         private void SendPost()
-        {                     
+        {
             // Build the Request string
             String _args = "shared=9v5s44s7E284Nr2e2813z3cp107Fz2";
 

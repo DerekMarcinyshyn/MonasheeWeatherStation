@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
-using SecretLabs.NETMF.Hardware.Netduino;
+using SecretLabs.NETMF.Hardware.NetduinoPlus;
 using SecretLabs.NETMF.Hardware;
 using System.IO;
 
@@ -62,7 +62,7 @@ namespace MonasheeWeatherStation
         {
             while (true)
             {
-                Thread.Sleep(10);
+                //Thread.Sleep(10);
 
                 using (Socket connectionSocket = _socket.Accept())
                 {
@@ -109,7 +109,7 @@ namespace MonasheeWeatherStation
         /// </summary>
         /// <returns></returns>
         private string GetJsonResponse()
-        {
+        {         
             if (Collector.Data != null) 
             {
                 String jsonData = @"";
@@ -123,16 +123,6 @@ namespace MonasheeWeatherStation
             }
             else
             {
-                try
-                {
-                    DataCollector collector = new DataCollector();
-                    collector.Start();
-                }
-                catch (Exception ex)
-                {
-                    Debug.Print(ex.ToString());
-                }
-
                 return @"{""tempbmp"":""error""}";
             }            
         }
