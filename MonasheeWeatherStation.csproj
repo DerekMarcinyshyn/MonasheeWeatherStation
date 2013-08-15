@@ -36,30 +36,26 @@
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
     <Compile Include="DataCollector.cs" />
+    <Compile Include="Humidity\Humidity.cs" />
+    <Compile Include="Temperature\DS18B20.cs" />
+    <Compile Include="Temperature\OneWireBus.cs" />
+    <Compile Include="Temperature\Temperature.cs" />
     <Compile Include="WebServer\WebServer.cs" />
     <Compile Include="Wind\Anemometer.cs" />
-    <Compile Include="Barometer\BMP085.cs" />
-    <Compile Include="Barometer\I2CBus.cs" />
-    <Compile Include="DHTSensor\DHTSensor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="DHTSensor\PullUpResistor.cs" />
-    <Compile Include="DHTSensor\RHT03.cs" />
-    <Compile Include="DHTSensor\TemperatureSensor.cs" />
-    <Compile Include="DHTSensor\TimeCounter.cs" />
     <Compile Include="Wind\RainGauge.cs" />
     <Compile Include="Wind\WindVane.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SPOT.Hardware" />
-    <Reference Include="Microsoft.SPOT.Hardware.PWM" />
+    <Reference Include="Microsoft.SPOT.Hardware.OneWire" />
     <Reference Include="Microsoft.SPOT.Hardware.SerialPort" />
     <Reference Include="Microsoft.SPOT.Native" />
     <Reference Include="Microsoft.SPOT.Net" />
     <Reference Include="SecretLabs.NETMF.Hardware" />
     <Reference Include="SecretLabs.NETMF.Hardware.AnalogInput, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="SecretLabs.NETMF.Hardware.Netduino, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="SecretLabs.NETMF.Hardware.NetduinoPlus, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>

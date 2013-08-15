@@ -28,3 +28,12 @@ Rain Gauge
 
 * Black = GND Bus -> GND
 * White = Blue -> Digital 10
+
+Humidity
+--------
+
+https://www.sparkfun.com/products/9890
+
+* Black = GND
+* Red = 5v
+* Orange = Analog 1

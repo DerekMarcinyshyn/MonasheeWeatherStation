@@ -7,13 +7,14 @@ using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
 using SecretLabs.NETMF.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
-//using CW.NETMF; // temp/humidity drivers
-//using CW.NETMF.Sensors;
 
 namespace MonasheeWeatherStation
 {
     public class Program
     {
+        // Wind vane Analog Pin 2
+        // Anemometer Digital Pin 12
+        // Humidity Analog Pin 1
         //static RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);    
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace MonasheeWeatherStation
             Debug.Print(Debug.GC(true) + " bytes available after garbage collection");
             
             // let the Netduino fire up first
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
 
             // start collecting data
             DataCollector collector = new DataCollector();

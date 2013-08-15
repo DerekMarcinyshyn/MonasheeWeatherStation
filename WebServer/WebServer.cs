@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
-using SecretLabs.NETMF.Hardware.NetduinoPlus;
+using SecretLabs.NETMF.Hardware.Netduino;
 using SecretLabs.NETMF.Hardware;
 using System.IO;
 
@@ -123,7 +123,7 @@ namespace MonasheeWeatherStation
             }
             else
             {
-                return @"{""tempbmp"":""error""}";
+                return @"{""temp"":""error""}";
             }            
         }
                 
