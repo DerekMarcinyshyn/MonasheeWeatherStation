@@ -62,8 +62,6 @@ namespace MonasheeWeatherStation
         {
             while (true)
             {
-                //Thread.Sleep(10);
-
                 using (Socket connectionSocket = _socket.Accept())
                 {
                     // get clients IP

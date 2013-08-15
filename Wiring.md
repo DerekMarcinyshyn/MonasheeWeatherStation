@@ -37,3 +37,12 @@ https://www.sparkfun.com/products/9890
 * Black = GND
 * Red = 5v
 * Orange = Analog 1
+
+DS18B20
+-------
+
+https://solarbotics.com/product/52210/
+
+* Red = 5v
+* White = 5v -> 4.7k resistor -> Digital 4
+* Silver = GND
