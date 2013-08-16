@@ -36,7 +36,7 @@ https://www.sparkfun.com/products/9890
 
 * Black = GND
 * Red = 5v
-* Orange = Analog 1
+* Orange = Analog 0
 
 DS18B20
 -------
