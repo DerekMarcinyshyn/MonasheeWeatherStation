@@ -10,7 +10,7 @@ namespace MonasheeWeatherStation
     public class Humidity
     {
         // inputs
-        private static SecretLabs.NETMF.Hardware.AnalogInput humidity = new SecretLabs.NETMF.Hardware.AnalogInput(Pins.GPIO_PIN_A0);
+        private static SecretLabs.NETMF.Hardware.AnalogInput humidity = new SecretLabs.NETMF.Hardware.AnalogInput(Pins.GPIO_PIN_A3);
 
         // variables
         private float _relativeHumidity;

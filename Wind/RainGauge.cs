@@ -21,7 +21,7 @@ namespace MonasheeWeatherStation
         private InterruptPort inPort;
 
         // interval for debouncing
-        private const int DEBOUNCING_INTERVAL = 200;
+        private const int DEBOUNCING_INTERVAL = 500;
 
         // last raingauge interrupt
         private static DateTime raingauge_interruptTime = DateTime.Now;

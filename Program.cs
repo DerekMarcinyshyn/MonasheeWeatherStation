@@ -15,7 +15,7 @@ namespace MonasheeWeatherStation
         // Wind vane Analog Pin 2
         // Anemometer Digital Pin 12
         // Humidity Analog Pin 1
-        //static RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);    
+        static RainGauge raingauge = new RainGauge(Pins.GPIO_PIN_D10);    
 
         /// <summary>
         /// Main program
