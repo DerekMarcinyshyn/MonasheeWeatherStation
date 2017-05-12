@@ -26,15 +26,22 @@ namespace MonasheeWeatherStation
             Debug.Print(Debug.GC(true) + " bytes available after garbage collection");
             
             // let the Netduino fire up first
-            Thread.Sleep(3000);
+            Thread.Sleep(4000);
 
-            // start collecting data
-            DataCollector collector = new DataCollector();
-            
-            // start the webserver
-            WebServer webserver = new WebServer(collector);
+            try
+            {
+                // start collecting data
+                DataCollector collector = new DataCollector();
 
-            Thread.Sleep(Timeout.Infinite);
+                // start the webserver
+                WebServer webserver = new WebServer(collector);
+
+                Thread.Sleep(Timeout.Infinite);
+            }
+            catch (Exception e)
+            {
+                PowerState.RebootDevice(true);
+            }
         }        
     }   
 }

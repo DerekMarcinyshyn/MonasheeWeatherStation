@@ -19,6 +19,8 @@ namespace MonasheeWeatherStation
         /// </summary>
         public ArrayList Data { get; private set; }
 
+        private Thread collectorThread = null;
+
         /// <summary>
         /// Creates a new data collector
         /// Immediately starts to collect data on all its registered sensors in the background
@@ -53,28 +55,53 @@ namespace MonasheeWeatherStation
 
             while (true)
             {
-                anemometer.Start();
-                WindVane windvane = new WindVane();
+                try
+                {
+                    anemometer.Start();
+                    WindVane windvane = new WindVane();
 
-                Humidity humidity = new Humidity();                
-                var relativeHumidity = (humidity.RelativeHumidity / (1.0546 - (0.00216 * temp.Celsius))) / 10;
+                    Humidity humidity = new Humidity();
+                    var relativeHumidity = (humidity.RelativeHumidity / (1.0546 - (0.00216 * temp.Celsius))) / 10;
 
-                // create the json data array
-                ArrayList data = new ArrayList();
-                //String na = "N/A";
-                String time = DateTime.Now.ToString();
-                data.Add(@"{""temp"":""" + temp.Celsius.ToString() + "\"" + ",");
-                data.Add(@"""humidity"":""" + humidity.RelativeHumidity.ToString() + "\"" + ",");
-                data.Add(@"""relativehumidity"":""" + relativeHumidity.ToString("F0") + "\"" + ",");
-                data.Add(@"""direction"":""" + windvane.WindDirection + "\"" + ",");
-                data.Add(@"""speed"":""" + anemometer.WindSpeed.ToString("F1") + "\"" + "}");
+                    // create the json data array
+                    ArrayList data = new ArrayList();
+                    //String na = "N/A";
+                    String time = DateTime.Now.ToString();
+                    data.Add(@"{""temp"":""" + temp.Celsius.ToString() + "\"" + ",");
+                    data.Add(@"""humidity"":""" + humidity.RelativeHumidity.ToString() + "\"" + ",");
+                    data.Add(@"""relativehumidity"":""" + relativeHumidity.ToString("F0") + "\"" + ",");
+                    data.Add(@"""direction"":""" + windvane.WindDirection + "\"" + ",");
+                    data.Add(@"""speed"":""" + anemometer.WindSpeed.ToString("F1") + "\"" + "}");
 
-                Data = data;
+                    Data = data;
 
-                // collect every 10 seconds
-                Thread.Sleep(10000);
-                Debug.GC(true);
-            }           
+                    // collect every 2 seconds
+                    Thread.Sleep(2000);
+                    Debug.GC(true);
+                }
+                catch (Exception e)
+                {
+                    // do something
+                    PowerState.RebootDevice(true); 
+                }
+            }          
+        }
+
+        ~DataCollector()
+        {
+            Dispose();
+        }
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                collectorThread = null;
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace MonasheeWeatherStation
     class Anemometer
     {
         // default watching period for calculating wind speed
-        public const int DEFAULT_CALCULATE_PERIOD = 5000;
+        public const int DEFAULT_CALCULATE_PERIOD = 1000;
 
         // interval for debouncing
         private const int DEBOUNCING_INTERVAL = 1;
@@ -55,7 +55,8 @@ namespace MonasheeWeatherStation
             Cpu.Pin inPin,
             int calculatePeriod = DEFAULT_CALCULATE_PERIOD,
             float referenceWindSpeed = REFERENCE_WIND_SPEED,
-            float referencePulseForSecond = REFERENCE_PULSE_FOR_SECOND)
+            float referencePulseForSecond = REFERENCE_PULSE_FOR_SECOND
+            )
         {
             this.calculatePeriod = calculatePeriod;
             this.referenceWindSpeed = referenceWindSpeed;

@@ -62,43 +62,50 @@ namespace MonasheeWeatherStation
         {
             while (true)
             {
-                using (Socket connectionSocket = _socket.Accept())
+                try
                 {
-                    // get clients IP
-                    IPEndPoint ClientIP = connectionSocket.RemoteEndPoint as IPEndPoint;
-                    EndPoint ClientEndPoint = connectionSocket.RemoteEndPoint;
-                    int BytesReceived = connectionSocket.Available;
-
-                    if (BytesReceived > 0)
+                    using (Socket connectionSocket = _socket.Accept())
                     {
-                        // Get request
-                        byte[] Buffer = new byte[BytesReceived];
-                        int ByteCount = connectionSocket.Receive(Buffer, BytesReceived, SocketFlags.None);
-                        string Request = new string(Encoding.UTF8.GetChars(Buffer));
-                        //Debug.Print(Request);
+                        // get clients IP
+                        IPEndPoint ClientIP = connectionSocket.RemoteEndPoint as IPEndPoint;
+                        EndPoint ClientEndPoint = connectionSocket.RemoteEndPoint;
+                        int BytesReceived = connectionSocket.Available;
 
-                        // Server the request -- basic routing
-                        if (Request.IndexOf("GET / HTTP/1.1") == 0)
+                        if (BytesReceived > 0)
                         {
-                            //Debug.Print("show simple page");
-                            String response = GetJsonResponse();
-                            Serve(response, connectionSocket);
-                        }
-                        else if (Request.IndexOf("GET /favicon.ico HTTP/1.1") == 0) // favicon requested?
-                        {
-                            //Debug.Print("show 404");
-                            String response = "";
-                            ServeWith404(response, connectionSocket);
-                        }
-                        else // do not know what to serve so 404
-                        {
-                            //Debug.Print("show do not know 404");
-                            String response = "<!DOCTYPE html><html><head><title>Unknown request 404 Error</title></head>" +
-                                "<body><h1>Unknown request 404 ERROR</h1></body></html>";
-                            ServeWith404(response, connectionSocket);
+                            // Get request
+                            byte[] Buffer = new byte[BytesReceived];
+                            int ByteCount = connectionSocket.Receive(Buffer, BytesReceived, SocketFlags.None);
+                            string Request = new string(Encoding.UTF8.GetChars(Buffer));
+                            Debug.Print(Request);
+
+                            // Server the request -- basic routing
+                            if (Request.IndexOf("GET / HTTP/1.1") == 0)
+                            {
+                                //Debug.Print("show simple page");
+                                String response = GetJsonResponse();
+                                Serve(response, connectionSocket);
+                            }
+                            else if (Request.IndexOf("GET /favicon.ico HTTP/1.1") == 0) // favicon requested?
+                            {
+                                //Debug.Print("show 404");
+                                String response = "";
+                                ServeWith404(response, connectionSocket);
+                            }
+                            else // do not know what to serve so 404
+                            {
+                                //Debug.Print("show do not know 404");
+                                String response = "<!DOCTYPE html><html><head><title>Unknown request 404 Error</title></head>" +
+                                    "<body><h1>Unknown request 404 ERROR</h1></body></html>";
+                                ServeWith404(response, connectionSocket);
+                            }
                         }
                     }
                 }
+                catch
+                {
+                    PowerState.RebootDevice(true);   
+                }   
             }
         }
 
@@ -156,6 +163,7 @@ namespace MonasheeWeatherStation
             {
                 socket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
             } catch {
+                PowerState.RebootDevice(true);
             }
             // add blink here
         }
@@ -167,7 +175,8 @@ namespace MonasheeWeatherStation
         /// <param name="socket"></param>
         private void ServeWith404(string response, Socket socket)
         {
-            string header = "HTTP/1.0 404 Not Found\r\nContent-Type: text; charset=utf-8\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
+            string header = "HTTP/1.0 404 Not Found\r\nContent-Type: text; charset=utf-8\r\nContent-Length: " 
+                + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
             SendResponse(response, socket, header);
         }
         
