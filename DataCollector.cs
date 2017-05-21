@@ -19,7 +19,7 @@ namespace MonasheeWeatherStation
         /// </summary>
         public ArrayList Data { get; private set; }
 
-        private Thread collectorThread = null;
+        public Thread collectorThread = null;
 
         /// <summary>
         /// Creates a new data collector
@@ -51,7 +51,7 @@ namespace MonasheeWeatherStation
             Anemometer anemometer = new Anemometer(Pins.GPIO_PIN_D12);           
             Temperature temp = new Temperature();
 
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
 
             while (true)
             {
@@ -75,14 +75,16 @@ namespace MonasheeWeatherStation
 
                     Data = data;
 
-                    // collect every 2 seconds
+                    Debug.Print(anemometer.WindSpeed.ToString("F1"));
+     
+                    // collect every second
                     Thread.Sleep(2000);
                     Debug.GC(true);
                 }
                 catch (Exception e)
                 {
-                    // do something
-                    PowerState.RebootDevice(true); 
+                    Debug.Print(e.ToString());
+                    PowerState.RebootDevice(false); 
                 }
             }          
         }

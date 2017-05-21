@@ -77,7 +77,7 @@ namespace MonasheeWeatherStation
                             byte[] Buffer = new byte[BytesReceived];
                             int ByteCount = connectionSocket.Receive(Buffer, BytesReceived, SocketFlags.None);
                             string Request = new string(Encoding.UTF8.GetChars(Buffer));
-                            Debug.Print(Request);
+                            //Debug.Print(Request);
 
                             // Server the request -- basic routing
                             if (Request.IndexOf("GET / HTTP/1.1") == 0)
@@ -92,6 +92,11 @@ namespace MonasheeWeatherStation
                                 String response = "";
                                 ServeWith404(response, connectionSocket);
                             }
+                            else if (Request.IndexOf("GET /reboot HTTP/1.1") == 0)
+                            {
+                                Debug.Print("going down for reboot....");
+                                PowerState.RebootDevice(false);
+                            }
                             else // do not know what to serve so 404
                             {
                                 //Debug.Print("show do not know 404");
@@ -104,7 +109,7 @@ namespace MonasheeWeatherStation
                 }
                 catch
                 {
-                    PowerState.RebootDevice(true);   
+                    PowerState.RebootDevice(false);   
                 }   
             }
         }
@@ -128,6 +133,7 @@ namespace MonasheeWeatherStation
             }
             else
             {
+                //PowerState.RebootDevice(true); 
                 return @"{""temp"":""error""}";
             }            
         }

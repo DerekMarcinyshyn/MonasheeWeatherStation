@@ -8,7 +8,7 @@ namespace MonasheeWeatherStation
     class Anemometer
     {
         // default watching period for calculating wind speed
-        public const int DEFAULT_CALCULATE_PERIOD = 1000;
+        public const int DEFAULT_CALCULATE_PERIOD = 5000;
 
         // interval for debouncing
         private const int DEBOUNCING_INTERVAL = 1;
@@ -61,7 +61,7 @@ namespace MonasheeWeatherStation
             this.calculatePeriod = calculatePeriod;
             this.referenceWindSpeed = referenceWindSpeed;
             this.referencePulseForSecond = referencePulseForSecond;
-            
+           
             this.inPort = new InterruptPort(inPin, false, Port.ResistorMode.PullUp, Port.InterruptMode.InterruptEdgeLow);
             this.inPort.OnInterrupt += new NativeEventHandler(intPort_OnInterrupt);
 
@@ -99,6 +99,7 @@ namespace MonasheeWeatherStation
                     prevPulseTicks = ticks;
                     pulseCount++;
                 }
+                Debug.GC(true);
             }
         }
 

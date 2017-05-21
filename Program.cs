@@ -26,7 +26,7 @@ namespace MonasheeWeatherStation
             Debug.Print(Debug.GC(true) + " bytes available after garbage collection");
             
             // let the Netduino fire up first
-            Thread.Sleep(4000);
+            Thread.Sleep(3000);
 
             try
             {
@@ -40,7 +40,8 @@ namespace MonasheeWeatherStation
             }
             catch (Exception e)
             {
-                PowerState.RebootDevice(true);
+                Debug.Print(e.ToString());
+                PowerState.RebootDevice(false);
             }
         }        
     }   
