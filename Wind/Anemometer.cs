@@ -89,7 +89,7 @@ namespace MonasheeWeatherStation
             lock (this.lockObj)
             {
                 long ticks = time.Ticks;
-                
+
                 // if two consecutive interrupts are very close (inside DEBOUNCING_INTERVAL)
                 // we need to filter with a debouncing
                 if (ticks - prevPulseTicks < DEBOUNCING_INTERVAL * TimeSpan.TicksPerMillisecond)
@@ -99,7 +99,6 @@ namespace MonasheeWeatherStation
                     prevPulseTicks = ticks;
                     pulseCount++;
                 }
-                Debug.GC(true);
             }
         }
 

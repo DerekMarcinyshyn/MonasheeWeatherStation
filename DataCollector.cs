@@ -49,9 +49,8 @@ namespace MonasheeWeatherStation
         {
             // Sensor variables
             Anemometer anemometer = new Anemometer(Pins.GPIO_PIN_D12);           
-            Temperature temp = new Temperature();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             while (true)
             {
@@ -59,26 +58,22 @@ namespace MonasheeWeatherStation
                 {
                     anemometer.Start();
                     WindVane windvane = new WindVane();
-
                     Humidity humidity = new Humidity();
-                    var relativeHumidity = (humidity.RelativeHumidity / (1.0546 - (0.00216 * temp.Celsius))) / 10;
 
                     // create the json data array
                     ArrayList data = new ArrayList();
-                    //String na = "N/A";
-                    String time = DateTime.Now.ToString();
-                    data.Add(@"{""temp"":""" + temp.Celsius.ToString() + "\"" + ",");
-                    data.Add(@"""humidity"":""" + humidity.RelativeHumidity.ToString() + "\"" + ",");
-                    data.Add(@"""relativehumidity"":""" + relativeHumidity.ToString("F0") + "\"" + ",");
+
+                    data.Add(@"{""humidity"":""" + humidity.RelativeHumidity.ToString() + "\"" + ",");
                     data.Add(@"""direction"":""" + windvane.WindDirection + "\"" + ",");
                     data.Add(@"""speed"":""" + anemometer.WindSpeed.ToString("F1") + "\"" + "}");
 
                     Data = data;
 
                     Debug.Print(anemometer.WindSpeed.ToString("F1"));
+                    //Debug.Print(windvane.WindDirection);
      
                     // collect every second
-                    Thread.Sleep(2000);
+                    Thread.Sleep(2500);
                     Debug.GC(true);
                 }
                 catch (Exception e)

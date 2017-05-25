@@ -133,7 +133,6 @@ namespace MonasheeWeatherStation
             }
             else
             {
-                //PowerState.RebootDevice(true); 
                 return @"{""temp"":""error""}";
             }            
         }
@@ -169,7 +168,7 @@ namespace MonasheeWeatherStation
             {
                 socket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
             } catch {
-                PowerState.RebootDevice(true);
+                PowerState.RebootDevice(false);
             }
             // add blink here
         }
